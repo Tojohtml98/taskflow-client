@@ -1,6 +1,6 @@
-# Task Manager Client
+# Taskflow Client
 
-React frontend for the Task Manager application. Manage projects and tasks with a clean, responsive dashboard.
+React frontend for the Taskflow application. Manage projects and tasks with a clean, responsive dashboard.
 
 **Live demo:** _coming soon — deploy in progress_
 
@@ -48,14 +48,14 @@ src/
 
 ### Prerequisites
 - Node.js 18+
-- [task-manager-api](https://github.com/Tojohtml98/-task-manager-api) running on port 3000
+- [taskflow-api](https://github.com/Tojohtml98/taskflow-api) running on port 3000
 
 ### Local setup
 
 ```bash
 # 1. Clone the repo
-git clone https://github.com/Tojohtml98/-task-manager-client
-cd task-manager-client
+git clone https://github.com/Tojohtml98/taskflow-client
+cd taskflow-client
 
 # 2. Install dependencies
 npm install
@@ -86,4 +86,4 @@ npm run preview  # Preview production build locally
 
 ## Backend
 
-The REST API for this app lives at [task-manager-api](https://github.com/Tojohtml98/-task-manager-api).
+The REST API for this app lives at [taskflow-api](https://github.com/Tojohtml98/taskflow-api).

@@ -2,7 +2,7 @@
 
 React frontend for the Task Manager application. Manage projects and tasks with a clean, responsive dashboard.
 
-**Live demo:** [task-manager.vercel.app](https://task-manager.vercel.app) <!-- update after deploy -->
+**Live demo:** _coming soon — deploy in progress_
 
 ## Tech Stack
 
@@ -48,13 +48,13 @@ src/
 
 ### Prerequisites
 - Node.js 18+
-- [task-manager-api](https://github.com/YOUR_USERNAME/task-manager-api) running on port 3000
+- [task-manager-api](https://github.com/Tojohtml98/-task-manager-api) running on port 3000
 
 ### Local setup
 
 ```bash
 # 1. Clone the repo
-git clone https://github.com/YOUR_USERNAME/task-manager-client
+git clone https://github.com/Tojohtml98/-task-manager-client
 cd task-manager-client
 
 # 2. Install dependencies
@@ -86,4 +86,4 @@ npm run preview  # Preview production build locally
 
 ## Backend
 
-The REST API for this app lives at [task-manager-api](https://github.com/YOUR_USERNAME/task-manager-api).
+The REST API for this app lives at [task-manager-api](https://github.com/Tojohtml98/-task-manager-api).

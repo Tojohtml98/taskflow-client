@@ -2,7 +2,9 @@
 
 React frontend for the Taskflow application. Manage projects and tasks with a clean, responsive dashboard.
 
-**Live demo:** _coming soon — deploy in progress_
+**Live demo:** [taskflow-client-nu.vercel.app](https://taskflow-client-nu.vercel.app)
+
+> ⚠️ El backend corre en Render free tier — la primera petición puede tardar ~30s mientras el servicio despierta.
 
 ## Tech Stack
 

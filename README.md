@@ -1,10 +1,29 @@
 # Taskflow Client
 
-React frontend for the Taskflow application. Manage projects and tasks with a clean, responsive dashboard.
+> React + Vite frontend for [Taskflow API](https://github.com/Tojohtml98/taskflow-api) — JWT auth flow with silent refresh, project & task CRUD, fully responsive.
 
-**Live demo:** [taskflow-client-nu.vercel.app](https://taskflow-client-nu.vercel.app)
+[![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=black)](https://react.dev)
+[![Vite](https://img.shields.io/badge/Vite-5-646CFF?logo=vite&logoColor=white)](https://vitejs.dev)
+[![Tailwind](https://img.shields.io/badge/Tailwind-3-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
+[![Deployed](https://img.shields.io/badge/Vercel-deployed-000000?logo=vercel&logoColor=white)](https://taskflow-client-nu.vercel.app)
 
-> ⚠️ El backend corre en Render free tier — la primera petición puede tardar ~30s mientras el servicio despierta.
+### 🚀 Live
+
+| | Link |
+|---|---|
+| **App** | https://taskflow-client-nu.vercel.app |
+| **API** | https://taskflow-api-mti1.onrender.com |
+| **Repo (API)** | [taskflow-api](https://github.com/Tojohtml98/taskflow-api) |
+
+> ⚠️ The backend runs on Render free tier — the first request after idle may take ~30s while the service wakes up.
+
+### Highlights
+
+- 🔐 **Silent token refresh** — Axios interceptor queues concurrent requests during refresh, no race conditions
+- 🧭 **Protected routing** — React Router v6 + `ProtectedRoute` wrapper, unauthenticated users redirected
+- 🎯 **Optimistic UX** — one-click task status cycling (`todo → in progress → done`)
+- 📱 **Responsive** — Tailwind utility classes, works on mobile/tablet/desktop
+- ♻️ **Centralized state** — Context API for auth, plain hooks for everything else (no Redux overhead)
 
 ## Tech Stack
 
@@ -73,7 +92,7 @@ Open `http://localhost:5173`. API requests are proxied to `http://localhost:3000
 Only needed for production builds:
 
 ```env
-VITE_API_URL=https://your-api-url.railway.app/api
+VITE_API_URL=https://taskflow-api-mti1.onrender.com/api
 ```
 
 In development, the Vite proxy handles API routing automatically — no env file needed.

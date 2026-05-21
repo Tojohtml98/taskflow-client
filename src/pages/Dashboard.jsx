@@ -1,15 +1,21 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Plus, Folder, ChevronRight, Loader2 } from 'lucide-react'
+import { Plus, FolderOpen, ArrowUpRight, AlertCircle, Inbox } from 'lucide-react'
 import Layout from '../components/Layout'
+import SlideOver from '../components/SlideOver'
 import * as projectsApi from '../api/projects'
 
-const STATUS_STYLES = {
-  active: 'bg-green-100 text-green-700',
-  archived: 'bg-gray-100 text-gray-600'
+function StatusDot({ status }) {
+  const color = status === 'active' ? 'bg-success' : 'bg-fg-dim'
+  return (
+    <span className="inline-flex items-center gap-1.5 text-[11px] font-mono text-fg-muted uppercase tracking-wider">
+      <span className={`w-1.5 h-1.5 rounded-full ${color}`} />
+      {status}
+    </span>
+  )
 }
 
-function ProjectModal({ project, onClose, onSaved }) {
+function ProjectForm({ project, onClose, onSaved }) {
   const [form, setForm] = useState({
     name: project?.name || '',
     description: project?.description || '',
@@ -37,62 +43,63 @@ function ProjectModal({ project, onClose, onSaved }) {
   }
 
   return (
-    <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 px-4" onClick={onClose}>
-      <div className="bg-white rounded-xl shadow-lg w-full max-w-md p-6" onClick={e => e.stopPropagation()}>
-        <h2 className="text-lg font-semibold mb-4">{project ? 'Edit project' : 'New project'}</h2>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="space-y-1.5">
-            <label className="text-sm font-medium">Name</label>
-            <input
-              required
-              value={form.name}
-              onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
-              placeholder="Project name"
-              className="w-full h-9 px-3 text-sm border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring"
-            />
-          </div>
-          <div className="space-y-1.5">
-            <label className="text-sm font-medium">Description</label>
-            <textarea
-              value={form.description}
-              onChange={e => setForm(f => ({ ...f, description: e.target.value }))}
-              placeholder="Optional description"
-              rows={3}
-              className="w-full px-3 py-2 text-sm border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring resize-none"
-            />
-          </div>
-          {project && (
-            <div className="space-y-1.5">
-              <label className="text-sm font-medium">Status</label>
-              <select
-                value={form.status}
-                onChange={e => setForm(f => ({ ...f, status: e.target.value }))}
-                className="w-full h-9 px-3 text-sm border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring"
-              >
-                <option value="active">Active</option>
-                <option value="archived">Archived</option>
-              </select>
-            </div>
-          )}
-          {error && <p className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">{error}</p>}
-          <div className="flex gap-2 justify-end pt-1">
-            <button type="button" onClick={onClose} className="h-9 px-4 text-sm border border-border rounded-lg hover:bg-gray-50 transition">
-              Cancel
-            </button>
-            <button type="submit" disabled={loading} className="h-9 px-4 text-sm bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 disabled:opacity-50 transition">
-              {loading ? 'Saving...' : 'Save'}
-            </button>
-          </div>
-        </form>
+    <form onSubmit={handleSubmit} className="space-y-5">
+      <div className="space-y-1.5">
+        <label className="text-xs font-medium text-fg-muted uppercase tracking-wider">Name</label>
+        <input
+          required
+          value={form.name}
+          onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
+          placeholder="What are you working on?"
+          autoFocus
+          className="field"
+        />
       </div>
-    </div>
+      <div className="space-y-1.5">
+        <label className="text-xs font-medium text-fg-muted uppercase tracking-wider">Description</label>
+        <textarea
+          value={form.description}
+          onChange={e => setForm(f => ({ ...f, description: e.target.value }))}
+          placeholder="Optional context"
+          rows={4}
+          className="field-textarea"
+        />
+      </div>
+      {project && (
+        <div className="space-y-1.5">
+          <label className="text-xs font-medium text-fg-muted uppercase tracking-wider">Status</label>
+          <select
+            value={form.status}
+            onChange={e => setForm(f => ({ ...f, status: e.target.value }))}
+            className="field"
+          >
+            <option value="active">Active</option>
+            <option value="archived">Archived</option>
+          </select>
+        </div>
+      )}
+      {error && (
+        <div className="flex items-start gap-2 text-sm text-danger bg-danger/10 border border-danger/30 rounded-lg px-3 py-2.5">
+          <AlertCircle className="w-4 h-4 mt-0.5 shrink-0" />
+          <span>{error}</span>
+        </div>
+      )}
+      <div className="flex gap-2 pt-2">
+        <button type="button" onClick={onClose} className="btn-secondary flex-1">
+          Cancel
+        </button>
+        <button type="submit" disabled={loading} className="btn-primary flex-1">
+          {loading ? 'Saving' : project ? 'Save changes' : 'Create project'}
+        </button>
+      </div>
+    </form>
   )
 }
 
 export default function Dashboard() {
   const [projects, setProjects] = useState([])
   const [loading, setLoading] = useState(true)
-  const [modal, setModal] = useState(null) // null | 'create' | project object
+  const [panel, setPanel] = useState(null)
   const navigate = useNavigate()
 
   const fetchProjects = useCallback(async () => {
@@ -110,81 +117,118 @@ export default function Dashboard() {
 
   const handleDelete = async (e, id) => {
     e.stopPropagation()
-    if (!confirm('Delete this project?')) return
+    if (!confirm('Delete this project? This cannot be undone.')) return
     await projectsApi.deleteProject(id)
     setProjects(prev => prev.filter(p => p._id !== id))
   }
 
+  const activeCount = projects.filter(p => p.status === 'active').length
+
   return (
     <Layout>
-      <div className="flex items-center justify-between mb-6">
-        <div>
-          <h1 className="text-2xl font-bold text-foreground">Projects</h1>
-          <p className="text-sm text-muted-foreground mt-0.5">{projects.length} project{projects.length !== 1 ? 's' : ''}</p>
+      <section className="mb-10 animate-slide-up">
+        <p className="text-xs font-mono uppercase tracking-[0.18em] text-fg-dim mb-2.5">
+          Workspace
+        </p>
+        <div className="flex items-end justify-between gap-6 flex-wrap">
+          <div>
+            <h1 className="text-[34px] leading-none font-semibold tracking-tight text-fg">
+              Projects
+            </h1>
+            <p className="text-sm text-fg-muted mt-3">
+              {loading
+                ? 'Loading'
+                : projects.length === 0
+                ? 'Nothing here yet'
+                : `${activeCount} active · ${projects.length} total`}
+            </p>
+          </div>
+          <button onClick={() => setPanel('create')} className="btn-primary">
+            <Plus className="w-4 h-4" />
+            New project
+          </button>
         </div>
-        <button
-          onClick={() => setModal('create')}
-          className="flex items-center gap-1.5 h-9 px-4 bg-primary text-primary-foreground text-sm font-medium rounded-lg hover:bg-primary/90 transition"
-        >
-          <Plus className="w-4 h-4" />
-          New project
-        </button>
-      </div>
+      </section>
 
       {loading ? (
-        <div className="flex items-center justify-center h-48">
-          <Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {Array.from({ length: 3 }).map((_, i) => (
+            <div key={i} className="h-[148px] rounded-xl bg-bg-surface border border-border animate-pulse" />
+          ))}
         </div>
       ) : projects.length === 0 ? (
-        <div className="flex flex-col items-center justify-center h-48 text-center">
-          <Folder className="w-10 h-10 text-muted-foreground/40 mb-3" />
-          <p className="font-medium text-foreground">No projects yet</p>
-          <p className="text-sm text-muted-foreground mt-1">Create your first project to get started</p>
+        <div className="flex flex-col items-center justify-center text-center py-20 border border-dashed border-border rounded-xl bg-bg-subtle">
+          <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-bg-surface border border-border mb-4">
+            <Inbox className="w-5 h-5 text-fg-muted" />
+          </div>
+          <p className="text-base font-medium text-fg">No projects yet</p>
+          <p className="text-sm text-fg-muted mt-1">Create your first project to start tracking work.</p>
+          <button onClick={() => setPanel('create')} className="btn-primary mt-6">
+            <Plus className="w-4 h-4" />
+            New project
+          </button>
         </div>
       ) : (
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {projects.map(project => (
-            <div
+            <article
               key={project._id}
               onClick={() => navigate(`/projects/${project._id}`)}
-              className="bg-white border border-border rounded-xl p-5 cursor-pointer hover:border-primary/40 hover:shadow-sm transition group"
+              className="group relative bg-bg-subtle border border-border rounded-xl p-5 cursor-pointer hover:border-border-strong hover:bg-bg-surface transition-colors"
             >
-              <div className="flex items-start justify-between mb-3">
-                <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${STATUS_STYLES[project.status]}`}>
-                  {project.status}
-                </span>
-                <ChevronRight className="w-4 h-4 text-muted-foreground/40 group-hover:text-primary transition" />
+              <div className="flex items-start justify-between mb-5">
+                <div className="flex items-center justify-center w-9 h-9 rounded-lg bg-bg-surface border border-border group-hover:border-accent/40 group-hover:text-accent transition-colors">
+                  <FolderOpen className="w-4 h-4 text-fg-muted group-hover:text-accent transition-colors" />
+                </div>
+                <ArrowUpRight className="w-4 h-4 text-fg-dim group-hover:text-accent group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-all" />
               </div>
-              <h3 className="font-semibold text-foreground mb-1 line-clamp-1">{project.name}</h3>
-              {project.description && (
-                <p className="text-sm text-muted-foreground line-clamp-2 mb-3">{project.description}</p>
+              <h3 className="font-semibold text-fg leading-snug line-clamp-1 mb-1">
+                {project.name}
+              </h3>
+              {project.description ? (
+                <p className="text-sm text-fg-muted line-clamp-2 leading-relaxed">
+                  {project.description}
+                </p>
+              ) : (
+                <p className="text-sm text-fg-dim italic">No description</p>
               )}
-              <div className="flex items-center gap-3 mt-3 pt-3 border-t border-border">
-                <button
-                  onClick={e => { e.stopPropagation(); setModal(project) }}
-                  className="text-xs text-muted-foreground hover:text-foreground transition"
-                >
-                  Edit
-                </button>
-                <button
-                  onClick={e => handleDelete(e, project._id)}
-                  className="text-xs text-muted-foreground hover:text-red-600 transition"
-                >
-                  Delete
-                </button>
+              <div className="flex items-center justify-between mt-5 pt-4 border-t border-border">
+                <StatusDot status={project.status} />
+                <div className="flex items-center gap-3 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <button
+                    onClick={e => { e.stopPropagation(); setPanel(project) }}
+                    className="text-xs text-fg-muted hover:text-fg transition-colors"
+                  >
+                    Edit
+                  </button>
+                  <span className="text-fg-dim text-xs">·</span>
+                  <button
+                    onClick={e => handleDelete(e, project._id)}
+                    className="text-xs text-fg-muted hover:text-danger transition-colors"
+                  >
+                    Delete
+                  </button>
+                </div>
               </div>
-            </div>
+            </article>
           ))}
         </div>
       )}
 
-      {modal && (
-        <ProjectModal
-          project={modal === 'create' ? null : modal}
-          onClose={() => setModal(null)}
-          onSaved={() => { setModal(null); fetchProjects() }}
-        />
-      )}
+      <SlideOver
+        open={!!panel}
+        onClose={() => setPanel(null)}
+        title={panel === 'create' ? 'New project' : 'Edit project'}
+        subtitle={panel === 'create' ? 'Define the scope of your work' : panel?.name}
+      >
+        {panel && (
+          <ProjectForm
+            project={panel === 'create' ? null : panel}
+            onClose={() => setPanel(null)}
+            onSaved={() => { setPanel(null); fetchProjects() }}
+          />
+        )}
+      </SlideOver>
     </Layout>
   )
 }

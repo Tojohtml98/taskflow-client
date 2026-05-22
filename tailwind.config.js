@@ -5,7 +5,8 @@ export default {
     extend: {
       fontFamily: {
         sans: ['Geist', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
-        mono: ['Geist Mono', 'ui-monospace', 'SFMono-Regular', 'monospace']
+        mono: ['Geist Mono', 'ui-monospace', 'SFMono-Regular', 'monospace'],
+        serif: ['Fraunces', 'ui-serif', 'Georgia', 'serif']
       },
       colors: {
         bg: {

@@ -132,7 +132,7 @@ export default function Dashboard() {
         </p>
         <div className="flex items-end justify-between gap-6 flex-wrap">
           <div>
-            <h1 className="text-[34px] leading-none font-semibold tracking-tight text-fg">
+            <h1 className="font-serif italic font-normal text-[40px] leading-none tracking-tight text-fg">
               Projects
             </h1>
             <p className="text-sm text-fg-muted mt-3">

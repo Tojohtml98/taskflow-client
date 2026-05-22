@@ -158,12 +158,12 @@ export default function Dashboard() {
         </div>
       ) : projects.length === 0 ? (
         <div className="flex flex-col items-center justify-center text-center py-20 border border-dashed border-border rounded-xl bg-bg-subtle">
-          <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-bg-surface border border-border mb-4">
+          <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-bg-surface border border-border mb-5">
             <Inbox className="w-5 h-5 text-fg-muted" />
           </div>
-          <p className="text-base font-medium text-fg">No projects yet</p>
-          <p className="text-sm text-fg-muted mt-1">Create your first project to start tracking work.</p>
-          <button onClick={() => setPanel('create')} className="btn-primary mt-6">
+          <p className="font-serif italic font-normal text-2xl text-fg leading-none">Quiet here.</p>
+          <p className="text-sm text-fg-muted mt-3 max-w-sm">Your first project is where focus begins. Name it, scope it, start.</p>
+          <button onClick={() => setPanel('create')} className="btn-primary mt-7">
             <Plus className="w-4 h-4" />
             New project
           </button>

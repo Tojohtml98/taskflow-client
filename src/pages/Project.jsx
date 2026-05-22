@@ -15,7 +15,7 @@ const PRIORITY = {
 const STATUS_META = {
   'todo':        { label: 'Todo',     icon: <Circle className="w-4 h-4 text-fg-dim" />,    next: 'in-progress' },
   'in-progress': { label: 'Doing',    icon: <Clock className="w-4 h-4 text-accent" />,      next: 'done' },
-  'done':        { label: 'Done',     icon: <CheckCircle2 className="w-4 h-4 text-success" />, next: 'todo' }
+  'done':        { label: 'Done',     icon: <CheckCircle2 className="w-4 h-4 text-success glow-amber" />, next: 'todo' }
 }
 
 const FILTERS = ['all', 'todo', 'in-progress', 'done']
@@ -249,14 +249,14 @@ export default function Project() {
 
       {filtered.length === 0 ? (
         <div className="flex flex-col items-center justify-center text-center py-16 border border-dashed border-border rounded-xl bg-bg-subtle">
-          <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-bg-surface border border-border mb-3">
+          <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-bg-surface border border-border mb-4">
             <Inbox className="w-4 h-4 text-fg-muted" />
           </div>
-          <p className="text-sm font-medium text-fg">
-            {filter === 'all' ? 'No tasks yet' : `Nothing ${filter === 'in-progress' ? 'in progress' : filter}`}
+          <p className="font-serif italic font-normal text-lg text-fg leading-none">
+            {filter === 'all' ? 'Nothing yet.' : `Nothing ${filter === 'in-progress' ? 'in progress' : filter}.`}
           </p>
           {filter === 'all' && (
-            <p className="text-xs text-fg-muted mt-1">Add your first task to break this project down.</p>
+            <p className="text-xs text-fg-muted mt-2">Break this project down. One task at a time.</p>
           )}
         </div>
       ) : (

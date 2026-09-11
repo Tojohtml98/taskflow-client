@@ -10,37 +10,37 @@ export default {
       },
       colors: {
         bg: {
-          DEFAULT: 'oklch(0.165 0.005 240 / <alpha-value>)',
-          subtle: 'oklch(0.185 0.005 240 / <alpha-value>)',
-          surface: 'oklch(0.215 0.006 240 / <alpha-value>)',
-          elevated: 'oklch(0.245 0.007 240 / <alpha-value>)'
+          DEFAULT: 'oklch(0.985 0.004 85 / <alpha-value>)',
+          subtle: 'oklch(0.965 0.006 85 / <alpha-value>)',
+          surface: 'oklch(0.94 0.008 85 / <alpha-value>)',
+          elevated: 'oklch(0.905 0.010 85 / <alpha-value>)'
         },
         border: {
-          DEFAULT: 'oklch(0.285 0.006 240 / <alpha-value>)',
-          strong: 'oklch(0.36 0.008 240 / <alpha-value>)'
+          DEFAULT: 'oklch(0.87 0.008 85 / <alpha-value>)',
+          strong: 'oklch(0.76 0.012 85 / <alpha-value>)'
         },
         fg: {
-          DEFAULT: 'oklch(0.97 0.005 240 / <alpha-value>)',
-          muted: 'oklch(0.72 0.010 240 / <alpha-value>)',
-          dim: 'oklch(0.50 0.010 240 / <alpha-value>)'
+          DEFAULT: 'oklch(0.22 0.008 85 / <alpha-value>)',
+          muted: 'oklch(0.42 0.010 85 / <alpha-value>)',
+          dim: 'oklch(0.58 0.010 85 / <alpha-value>)'
         },
         accent: {
-          DEFAULT: 'oklch(0.78 0.150 75 / <alpha-value>)',
-          hover: 'oklch(0.84 0.140 75 / <alpha-value>)',
-          fg: 'oklch(0.18 0.025 75 / <alpha-value>)',
-          soft: 'oklch(0.30 0.060 75 / <alpha-value>)'
+          DEFAULT: 'oklch(0.52 0.14 196 / <alpha-value>)',
+          hover: 'oklch(0.44 0.15 196 / <alpha-value>)',
+          fg: 'oklch(0.99 0.003 196 / <alpha-value>)',
+          soft: 'oklch(0.93 0.045 196 / <alpha-value>)'
         },
         danger: {
-          DEFAULT: 'oklch(0.65 0.22 25 / <alpha-value>)',
-          soft: 'oklch(0.32 0.080 25 / <alpha-value>)'
+          DEFAULT: 'oklch(0.50 0.19 25 / <alpha-value>)',
+          soft: 'oklch(0.94 0.035 25 / <alpha-value>)'
         },
         success: {
-          DEFAULT: 'oklch(0.75 0.16 145 / <alpha-value>)',
-          soft: 'oklch(0.28 0.060 145 / <alpha-value>)'
+          DEFAULT: 'oklch(0.45 0.13 165 / <alpha-value>)',
+          soft: 'oklch(0.93 0.035 165 / <alpha-value>)'
         },
         info: {
-          DEFAULT: 'oklch(0.72 0.10 220 / <alpha-value>)',
-          soft: 'oklch(0.28 0.040 220 / <alpha-value>)'
+          DEFAULT: 'oklch(0.48 0.12 220 / <alpha-value>)',
+          soft: 'oklch(0.93 0.03 220 / <alpha-value>)'
         }
       },
       borderRadius: {

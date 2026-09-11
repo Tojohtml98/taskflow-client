@@ -15,7 +15,7 @@ const PRIORITY = {
 const STATUS_META = {
   'todo':        { label: 'Todo',     icon: <Circle className="w-4 h-4 text-fg-dim" />,    next: 'in-progress' },
   'in-progress': { label: 'Doing',    icon: <Clock className="w-4 h-4 text-accent" />,      next: 'done' },
-  'done':        { label: 'Done',     icon: <CheckCircle2 className="w-4 h-4 text-success glow-amber" />, next: 'todo' }
+  'done':        { label: 'Done',     icon: <CheckCircle2 className="w-4 h-4 text-success" />, next: 'todo' }
 }
 
 const FILTERS = ['all', 'todo', 'in-progress', 'done']

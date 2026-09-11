@@ -18,7 +18,7 @@ export default function SlideOver({ open, onClose, title, subtitle, children }) 
   return (
     <div className="fixed inset-0 z-50">
       <div
-        className="absolute inset-0 bg-bg/70 backdrop-blur-sm animate-fade-in"
+        className="absolute inset-0 bg-fg/30 backdrop-blur-sm animate-fade-in"
         onClick={onClose}
       />
       <aside className="absolute top-0 right-0 h-full w-full max-w-md bg-bg-subtle border-l border-border shadow-2xl flex flex-col animate-slide-in-right">

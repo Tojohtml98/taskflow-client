@@ -8,8 +8,8 @@
   }
 
   html {
-    background-color: oklch(0.165 0.005 240);
-    color-scheme: dark;
+    background-color: oklch(0.985 0.004 85);
+    color-scheme: light;
   }
 
   body {
@@ -17,31 +17,30 @@
     font-feature-settings: 'cv11', 'ss03', 'ss01';
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-color: oklch(0.165 0.005 240);
-    background-image: radial-gradient(circle at 1px 1px, oklch(0.30 0.006 240 / 0.35) 1px, transparent 0);
+    background-color: oklch(0.985 0.004 85);
+    background-image: radial-gradient(circle at 1px 1px, oklch(0.2 0.01 85 / 0.05) 1px, transparent 0);
     background-size: 24px 24px;
     background-attachment: fixed;
-    color: oklch(0.97 0.005 240);
+    color: oklch(0.22 0.008 85);
     letter-spacing: -0.005em;
   }
 
   ::selection {
-    background-color: oklch(0.78 0.150 75 / 0.30);
-    color: oklch(0.97 0.005 240);
+    background-color: oklch(0.52 0.14 196 / 0.20);
+    color: oklch(0.22 0.008 85);
   }
 
   /* Hide native browser UI on inputs */
   input[type='date']::-webkit-calendar-picker-indicator {
-    filter: invert(0.85);
-    opacity: 0.55;
+    opacity: 0.6;
     cursor: pointer;
   }
 
   input:-webkit-autofill,
   input:-webkit-autofill:focus {
-    -webkit-text-fill-color: oklch(0.97 0.005 240);
-    -webkit-box-shadow: 0 0 0 30px oklch(0.215 0.006 240) inset;
-    caret-color: oklch(0.97 0.005 240);
+    -webkit-text-fill-color: oklch(0.22 0.008 85);
+    -webkit-box-shadow: 0 0 0 30px oklch(0.94 0.008 85) inset;
+    caret-color: oklch(0.22 0.008 85);
   }
 
   /* Subtle scrollbar */
@@ -53,12 +52,12 @@
     background: transparent;
   }
   ::-webkit-scrollbar-thumb {
-    background: oklch(0.30 0.006 240);
+    background: oklch(0.82 0.010 85);
     border-radius: 999px;
-    border: 2px solid oklch(0.165 0.005 240);
+    border: 2px solid oklch(0.985 0.004 85);
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: oklch(0.40 0.008 240);
+    background: oklch(0.72 0.012 85);
   }
 }
 
@@ -80,8 +79,3 @@
   }
 }
 
-@layer utilities {
-  .glow-amber {
-    filter: drop-shadow(0 0 6px oklch(0.78 0.150 75 / 0.45));
-  }
-}

@@ -14,21 +14,28 @@ const getStoredUser = () => {
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(getStoredUser)
 
-  const login = useCallback(async (credentials) => {
-    const { data } = await authApi.login(credentials)
+  const persistSession = useCallback((data) => {
     localStorage.setItem('accessToken', data.accessToken)
     localStorage.setItem('refreshToken', data.refreshToken)
     localStorage.setItem('user', JSON.stringify(data.user))
     setUser(data.user)
   }, [])
 
+  const login = useCallback(async (credentials) => {
+    const { data } = await authApi.login(credentials)
+    persistSession(data)
+  }, [persistSession])
+
   const register = useCallback(async (payload) => {
     const { data } = await authApi.register(payload)
-    localStorage.setItem('accessToken', data.accessToken)
-    localStorage.setItem('refreshToken', data.refreshToken)
-    localStorage.setItem('user', JSON.stringify(data.user))
-    setUser(data.user)
-  }, [])
+    persistSession(data)
+  }, [persistSession])
+
+  // Cuenta temporal con proyectos de ejemplo: probar la app sin registrarse
+  const loginAsGuest = useCallback(async () => {
+    const { data } = await authApi.guest()
+    persistSession(data)
+  }, [persistSession])
 
   const logout = useCallback(async () => {
     try {
@@ -40,7 +47,7 @@ export function AuthProvider({ children }) {
   }, [])
 
   return (
-    <AuthContext.Provider value={{ user, login, register, logout }}>
+    <AuthContext.Provider value={{ user, login, register, loginAsGuest, logout }}>
       {children}
     </AuthContext.Provider>
   )

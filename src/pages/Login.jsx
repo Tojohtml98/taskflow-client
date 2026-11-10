@@ -1,14 +1,37 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { ArrowRight, AlertCircle } from 'lucide-react'
+import { ArrowRight, AlertCircle, Sparkles } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 
 export default function Login() {
   const [form, setForm] = useState({ email: '', password: '' })
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
-  const { login } = useAuth()
+  const [guestLoading, setGuestLoading] = useState(false)
+  const [slowServer, setSlowServer] = useState(false)
+  const { login, loginAsGuest } = useAuth()
   const navigate = useNavigate()
+
+  // La API vive en Render free: si estaba dormida tarda ~30 s en despertar.
+  // Mejor avisarlo que dejar un botón cargando sin explicación.
+  useEffect(() => {
+    if (!guestLoading) return setSlowServer(false)
+    const t = setTimeout(() => setSlowServer(true), 4000)
+    return () => clearTimeout(t)
+  }, [guestLoading])
+
+  const handleGuest = async () => {
+    setError('')
+    setGuestLoading(true)
+    try {
+      await loginAsGuest()
+      navigate('/dashboard')
+    } catch (err) {
+      setError(err.response?.data?.error?.message || 'Could not start a guest session. Try again in a moment.')
+    } finally {
+      setGuestLoading(false)
+    }
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -87,7 +110,7 @@ export default function Login() {
 
             <button
               type="submit"
-              disabled={loading}
+              disabled={loading || guestLoading}
               className="group relative w-full h-10 inline-flex items-center justify-center gap-2 text-sm font-medium rounded-lg bg-accent text-accent-fg hover:bg-accent-hover disabled:opacity-50 transition-colors"
             >
               <span>{loading ? 'Signing in' : 'Sign in'}</span>
@@ -96,6 +119,27 @@ export default function Login() {
               )}
             </button>
           </form>
+
+          <div className="flex items-center gap-3 my-6" aria-hidden="true">
+            <div className="h-px flex-1 bg-border" />
+            <span className="text-xs text-fg-dim uppercase tracking-wider">or</span>
+            <div className="h-px flex-1 bg-border" />
+          </div>
+
+          <button
+            type="button"
+            onClick={handleGuest}
+            disabled={loading || guestLoading}
+            className="btn-secondary w-full h-10"
+          >
+            <Sparkles className="w-4 h-4 text-accent" />
+            <span>{guestLoading ? 'Preparing your workspace…' : 'Try it without an account'}</span>
+          </button>
+          <p className="text-xs text-fg-dim mt-2.5 text-center" aria-live="polite">
+            {slowServer
+              ? 'Waking up the server (free hosting). This can take up to 30 seconds.'
+              : 'Opens a guest workspace with sample projects. Deleted after 24 hours.'}
+          </p>
 
           <p className="text-sm text-fg-muted mt-8">
             New here?{' '}

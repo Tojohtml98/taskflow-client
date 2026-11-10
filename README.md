@@ -19,6 +19,7 @@
 
 ### Highlights
 
+- ✨ **Try it without an account** — one click opens a guest workspace with sample projects (created by the API, deleted after 24h)
 - 🔐 **Silent token refresh** — Axios interceptor queues concurrent requests during refresh, no race conditions
 - 🧭 **Protected routing** — React Router v6 + `ProtectedRoute` wrapper, unauthenticated users redirected
 - 🎯 **Optimistic UX** — one-click task status cycling (`todo → in progress → done`)
@@ -36,6 +37,7 @@
 ## Features
 
 - Register / Login with JWT authentication
+- Guest mode: explore a seeded workspace without signing up
 - Automatic token refresh — users stay logged in without interruption
 - Create, edit and delete projects with status tracking
 - Create, edit and delete tasks with priority, status and due date

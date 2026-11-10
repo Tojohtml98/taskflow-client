@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom'
-import { LogOut } from 'lucide-react'
+import { LogOut, Sparkles } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 
 function BrandMark() {
@@ -22,6 +22,11 @@ export default function Layout({ children }) {
     navigate('/login')
   }
 
+  const handleCreateAccount = async () => {
+    await logout()
+    navigate('/register')
+  }
+
   return (
     <div className="min-h-screen bg-bg">
       <header className="sticky top-0 z-30 bg-bg/80 backdrop-blur-md border-b border-border">
@@ -29,7 +34,7 @@ export default function Layout({ children }) {
           <BrandMark />
           <div className="flex items-center gap-1.5">
             <span className="text-xs text-fg-muted font-mono px-2.5 py-1 rounded-md bg-bg-surface border border-border">
-              {user?.email}
+              {user?.isGuest ? 'guest session' : user?.email}
             </span>
             <button
               onClick={handleLogout}
@@ -42,6 +47,22 @@ export default function Layout({ children }) {
           </div>
         </div>
       </header>
+      {user?.isGuest && (
+        <div className="border-b border-border bg-accent-soft/60">
+          <div className="max-w-6xl mx-auto px-6 py-2.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm">
+            <Sparkles className="w-4 h-4 text-accent shrink-0" aria-hidden="true" />
+            <span className="text-fg-muted">
+              You're exploring a guest workspace with sample data. It's deleted after 24 hours.
+            </span>
+            <button
+              onClick={handleCreateAccount}
+              className="font-medium text-accent hover:text-accent-hover underline underline-offset-4"
+            >
+              Create a free account
+            </button>
+          </div>
+        </div>
+      )}
       <main className="max-w-6xl mx-auto px-6 py-10">
         {children}
       </main>
